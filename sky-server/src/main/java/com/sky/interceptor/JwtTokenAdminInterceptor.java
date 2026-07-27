@@ -55,6 +55,10 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             //4、不通过，响应401状态码
             response.setStatus(401);
             return false;
+
         }
+    }
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        BaseContext.removeCurrentId();
     }
 }
