@@ -32,6 +32,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
 
     /**
+     * 编辑员工信息
+     * @param empDto
+     */
+    @Override
+    public void update(EmployeeDTO empDto) {
+        //创建一个空的Entity实体对象，接受DTO数据，DTO是前端传过来的数据，不能直接存数据库，要转成Entity实体对象
+        Employee employee = new Employee();
+        //把DTO里面的属性拷贝到Entity中（id，username，name，phone，sex，idNumber等），完成DTO到Entity的转换
+        BeanUtils.copyProperties(empDto,employee);// 从empDto拷贝属性到employee中
+//                               ↑         ↑
+//                               源       目标
+//                             (从哪拷)  (拷到哪)
+        //设置更新时间记录本次修改的时间
+        employee.setUpdateTime(LocalDateTime.now());
+        //设置修改人，从ThreadLocal中取出当前登陆员工的ID
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
+
+    }
+
+    @Override
+    public Employee getId(Long id) {
+       Employee employee = employeeMapper.getById(id);
+       employee.setPassword("****");
+       return employee;
+
+    }
+
+    /**
      * 员工停用/启用账号
      * @param status
      * @param id
