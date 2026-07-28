@@ -45,9 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 //                               源       目标
 //                             (从哪拷)  (拷到哪)
         //设置更新时间记录本次修改的时间
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         //设置修改人，从ThreadLocal中取出当前登陆员工的ID
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
 
     }
@@ -98,12 +98,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         //设置密码,默认密码为123456
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
         //创建时间
-        employee.setCreateTime(LocalDateTime.now());
+//        employee.setCreateTime(LocalDateTime.now());
         //更新时间
-        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
         //创建人id和修改人id
-        employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setCreateUser(BaseContext.getCurrentId());
+//        employee.setUpdateUser(BaseContext.getCurrentId());
 
         //保存数据
         employeeMapper.insert(employee);

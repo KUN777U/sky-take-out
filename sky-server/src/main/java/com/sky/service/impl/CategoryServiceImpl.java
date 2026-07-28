@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.annotation.AutoFill;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
@@ -39,8 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO, category);
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.updateById(category);
     }
 
@@ -63,10 +64,10 @@ public class CategoryServiceImpl implements CategoryService {
     public void add(CategoryDTO categoryDTO) {
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-        category.setStatus(StatusConstant.DISABLE);
-        category.setUpdateUser(BaseContext.getCurrentId());
+//        category.setCreateTime(LocalDateTime.now());
+//        category.setUpdateTime(LocalDateTime.now());
+//        category.setStatus(StatusConstant.DISABLE);
+//        category.setUpdateUser(BaseContext.getCurrentId());
         categoryMapper.insert(category);
     }
 
@@ -107,8 +108,8 @@ public class CategoryServiceImpl implements CategoryService {
         Category category =Category.builder()
                 .id(id)
                 .status(status)
-                .createTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
+//                .createTime(LocalDateTime.now())
+//                .updateUser(BaseContext.getCurrentId())
                 .build();
         categoryMapper.updateByStatus(category);
     }

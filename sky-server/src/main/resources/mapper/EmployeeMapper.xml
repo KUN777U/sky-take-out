@@ -12,7 +12,7 @@
                 status = #{status},
             </if>
             <if test = "password != null and password != ''">
-                phone = #{password},
+                password = #{password},
             </if>
             <if test = "phone != null and phone != ''">
                 phone = #{phone},
@@ -29,8 +29,11 @@
             <if test = "updateTime != null">
                 update_time = #{updateTime},
             </if>
-            <if test = "status !=null ">
-                status = #{status},
+            <if test = "createUser != null">
+                create_user = #{createUser},
+            </if>
+            <if test = "updateUser != null">
+                update_user = #{updateUser},
             </if>
         </set>
         where id = #{id}
