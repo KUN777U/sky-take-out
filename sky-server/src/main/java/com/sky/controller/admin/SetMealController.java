@@ -3,12 +3,16 @@ package com.sky.controller.admin;
 
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.dto.SetmealDTO;
 import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
+import com.sky.vo.SetmealVO;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,6 +40,7 @@ public class SetMealController {
      * 套餐起售、停售
      */
     @PutMapping("/status/{status}")
+    @CacheEvict(cacheNames = "setmaelCache",allEntries = true)
     public Result startOrStop(@PathVariable ("status")Integer status,@RequestParam Long id){
         log.info("员工停用/启用账号,{},{}",status,id);
         setMealService.startOrStop(status,id);
@@ -44,9 +49,10 @@ public class SetMealController {
 
 
     /**
-     * 批量删除套餐
+     * 删除套餐
      */
     @DeleteMapping
+    @CacheEvict(cacheNames = "setmaelCache",allEntries = true)
     public Result delete(@RequestParam Long id){
         log.info( "删除套餐，id={}",id);
         setMealService.deleteById(id);
@@ -57,6 +63,7 @@ public class SetMealController {
      * @param
      */
     @PostMapping
+    @CacheEvict(cacheNames = "setmaelCache",key = "#categoryDTO.categoryId")
     public Result add(@RequestBody CategoryDTO categoryDTO){
         log.info("新增套餐，categoryDTO={}",categoryDTO);
         setMealService.add(categoryDTO);
@@ -67,8 +74,21 @@ public class SetMealController {
      * @param
      */
     @GetMapping("/{id}")
-    public Result<Category> getId(@PathVariable Long id){
-        Category category = setMealService.getById(id);
-        return Result.success(category);
+    public Result<SetmealVO> getId(@PathVariable Long id){
+        SetmealVO setmealVO = setMealService.getByIdWithDish(id);
+        return Result.success(setmealVO);
+    }
+    /**
+     * 修改套餐
+     *
+     * @param setmealDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改套餐")
+    @CacheEvict(cacheNames = "setmaelCache",allEntries = true)
+    public Result update(@RequestBody SetmealDTO setmealDTO) {
+        setMealService.update(setmealDTO);
+        return Result.success();
     }
 }

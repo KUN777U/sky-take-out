@@ -37,4 +37,12 @@ public interface SetmealMapper {
             "where sd.setmeal_id = #{setmealId}")
     List<DishItemVO> getDishItemBySetmealId(Long setmealId);
 
+    void update(Setmeal setmeal);
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    Setmeal getById(Long id);
 }
