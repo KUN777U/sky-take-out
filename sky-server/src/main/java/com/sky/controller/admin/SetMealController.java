@@ -6,7 +6,7 @@ import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
-import com.sky.service.SetMealService;
+import com.sky.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class SetMealController {
 
     @Autowired
-    private SetMealService setMealService;
+    private SetmealService setMealService;
 
 
     /**

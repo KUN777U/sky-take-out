@@ -20,6 +20,7 @@ public interface DishMapper {
 
     /**
      * 根据分类id查询菜品数量
+     *
      * @param id
      * @return
      */
@@ -28,6 +29,7 @@ public interface DishMapper {
 
     /**
      * 插入菜品数据
+     *
      * @param dish
      */
     @AutoFill(value = OperationType.INSERT)
@@ -35,6 +37,7 @@ public interface DishMapper {
 
     /**
      * 分页查询菜品数据
+     *
      * @param dishPageQueryDTO
      * @return
      */
@@ -42,6 +45,7 @@ public interface DishMapper {
 
     /**
      * 根据id查询菜品数据
+     *
      * @param id
      * @return
      */
@@ -50,6 +54,7 @@ public interface DishMapper {
 
     /**
      * 根据id删除菜品数据
+     *
      * @param id
      */
     @Delete("delete from dish where id = #{id}")
@@ -57,14 +62,24 @@ public interface DishMapper {
 
     /**
      * 根据菜品id集合批量删除菜品数据
+     *
      * @param ids
      */
     void deleteByIds(List<Long> ids);
 
     /**
      * 根据ID动态修改菜品数据
+     *
      * @param dish
      */
     @AutoFill(value = OperationType.UPDATE)
     void updateDish(Dish dish);
+
+
+    /**
+     * 根据分类id查询菜品列表
+     * @param dish
+     * @return
+     */
+    List<Dish> list(Dish dish);
 }
