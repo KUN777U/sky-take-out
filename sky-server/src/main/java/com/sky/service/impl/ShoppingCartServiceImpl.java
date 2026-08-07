@@ -27,6 +27,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private SetmealMapper setmaelMapper;
 
     /**
+     * 查询购物车列表
+     * @return
+     */
+    @Override
+    public List<ShoppingCart> showShoppingCart() {
+        //获取当前微信用户的id
+        Long userId = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                .userId(userId)
+                .build();
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        return list;
+    }
+
+    /**
      * 添加购物车
      * 核心逻辑：先判断购物车中是否已经存在该商品，
      * 如果存在则数量+1，不存在则新增一条购物车记录
