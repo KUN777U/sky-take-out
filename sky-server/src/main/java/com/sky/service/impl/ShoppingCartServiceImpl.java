@@ -27,6 +27,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private SetmealMapper setmaelMapper;
 
     /**
+     * 清空购物车
+     */
+    @Override
+    public void cleanShoppingCart() {
+        // 1. 清空购物车
+        Long userId = BaseContext.getCurrentId();
+        shoppingCartMapper.deleteByUserId(userId);
+    }
+
+    /**
      * 查询购物车列表
      * @return
      */
