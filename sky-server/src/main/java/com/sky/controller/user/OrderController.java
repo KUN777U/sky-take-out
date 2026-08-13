@@ -97,6 +97,7 @@ public class OrderController {
      * @param id
      * @return
      */
+    @ApiOperation("用户再来一单")
     @PostMapping("/repetition/{id}")
     public Result repetition(@PathVariable Long id) {
         log.info("id: {}", id);
@@ -105,4 +106,16 @@ public class OrderController {
 
     }
 
+    /**
+     * 用户催单
+     * @param id
+     * @return
+     */
+    @ApiOperation("用户催单")
+    @GetMapping("/reminder/{id}")
+    public Result reminder (@PathVariable("id") Long id) {
+        log.info("id: {}", id);
+        orderService.reminder(id);
+        return Result.success();
+    }
 }

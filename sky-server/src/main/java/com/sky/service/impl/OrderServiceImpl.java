@@ -98,6 +98,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * 用户催单
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        Orders ordersDB = orderMapper.getById(id);
+        if (ordersDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("type",2);
+        map.put("orderId",id);
+        map.put("content","订单号"+ordersDB.getNumber());
+        //将map转换为json字符串
+        String json = JSON.toJSONString(map);
+        //将json字符串发送给所有客户端
+        webSocketServer.sendToAllClient(json);
+
+    }
+
+    /**
      * 管理员端接单（商家接单其实就是将订单状态信息修改为“已接单”）
      * @param ordersConfirmDTO
      */
