@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -21,16 +22,18 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     /**
      * 用户再来一单
@@ -397,6 +402,23 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        //通过webSocket向客户端历览器推送消息 type orderId content
+        Map<String,Object> map = new HashMap<>();//告诉编译器，key必须是String，value必须是Object类型
+        // （需要用key找value的场景就要使用map，需要"键值对"的时候就用 Map<String, Object>。 具体创建对象时用 new HashMap<>()，Map是一个接口，HashMap是一个实现类，后续更改）
+        //为什么要写成Map map = new HashMap<>(); 因为面向接口变成，Map是一个接口，左边写Map更灵活包含// 以后想换成 LinkedHashMap，只需要改右边，Map<String, Object> map = new LinkedHashMap<>();
+        map.put("type",1); //1表示来单提醒 2表示客户催单
+        map.put("orderId",ordersDB.getId());
+        map.put("content","有新订单" + outTradeNo);
+
+        // 转换为JSON字符串
+        // 1. 导入JSON类
+        // 2. 调用JSON.toJSONString()方法，将Map转换为JSON字符串
+        String json = JSON.toJSONString(map);
+        // 调用webSocket服务，将消息发送到所有连接的客户端
+        webSocketServer.sendToAllClient(json);
+
+
     }
 
 }
