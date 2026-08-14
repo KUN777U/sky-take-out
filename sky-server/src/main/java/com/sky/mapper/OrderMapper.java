@@ -69,4 +69,11 @@ public interface OrderMapper {
      * @return
      */
     Double sumByMap(Map<String, Object> map);
+
+    /**
+     * 动态查询已完成的订单数量
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map<String, Object> map);
 }
