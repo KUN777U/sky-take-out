@@ -4,9 +4,11 @@ import com.sky.entity.User;
 import com.sky.result.Result;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -74,4 +76,19 @@ public class ReportController {
         OrderReportVO ordersReportVO = reportService.getOrdersStatistics(begin, end);
         return Result.success(ordersReportVO);
     }
+
+    /**
+     * 销量排名Top10
+     */
+    @GetMapping("/top10")
+    @ApiOperation("销量排名Top10")
+    public Result<SalesTop10ReportVO> top10Sales(
+            @DateTimeFormat(pattern ="yyyy-MM-dd") LocalDate begin,
+            @DateTimeFormat(pattern ="yyyy-MM-dd") LocalDate end) {
+        log.info("销量排名Top10:{},{}", begin, end);
+        SalesTop10ReportVO salesTop10ReportVO = reportService.getSalesTop10(begin, end);
+        return Result.success(salesTop10ReportVO);
+    }
+
+
 }
