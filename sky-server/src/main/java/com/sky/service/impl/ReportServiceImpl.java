@@ -221,10 +221,10 @@ public class ReportServiceImpl implements ReportService {
         LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
         LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
         List<GoodsSalesDTO> salesTop10 = orderMapper.getSalesTop10(beginTime, endTime);
-
+        //用stream()流从查询结果中提取所有商品名称，拼成逗号分隔的字符串，如："鱼香肉丝","宫保鸡丁","麻婆豆腐"。
         List<String> names = salesTop10.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
         String nameStr = StringUtils.join(names, ",");
-
+        //用stream()流从查询结果中提取所有商品销量，拼成逗号分隔的字符串，如："100,200,300"。
         List<Integer> numbers = salesTop10.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
         String numberStr = StringUtils.join(numbers, ",");
 
